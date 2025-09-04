@@ -11,7 +11,7 @@ pipeline {
         stage('Ejecutar Prueba JMeter') {
             steps {
                 // Ejecuta el test plan
-                bat 'jmeter -n JMeter-Test.jmx -l resultados.jtl -e -o reportes'
+                bat 'jmeter -n -t JMeter-Test -l resultados.jtl -e -o reportes'
             }
         }
 
