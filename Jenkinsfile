@@ -2,19 +2,32 @@ pipeline {
     agent any
 
     environment {
+        // Ruta completa a jmeter.bat en tu PC
         JMETER_PATH = "C:\\Users\\Graciela\\Downloads\\Apache jmeter\\apache-jmeter-5.6.3\\bin\\jmeter.bat"
+        // Nombre del archivo .jmx dentro del repo
+        JMETER_TEST = "testplan.jmx"
     }
 
     stages {
         stage('Checkout SCM') {
             steps {
+                // Clonar el repositorio
                 git branch: 'main', url: 'https://github.com/gnieva2024/pruebajmeter'
             }
         }
 
         stage('Ejecutar Prueba JMeter') {
             steps {
-                bat "\"${env.JMETER_PATH}\" -n -t testplan.jmx -l resultados.jtl -e -o reportes"
+                // Verificar que el archivo .jmx exista
+                bat """
+                if exist ${JMETER_TEST} (
+                    echo Archivo .jmx encontrado: ${JMETER_TEST}
+                    "${JMETER_PATH}" -n -t ${JMETER_TEST} -l resultados.jtl -e -o reportes
+                ) else (
+                    echo ERROR: No se encontró el archivo ${JMETER_TEST}
+                    exit /b 1
+                )
+                """
             }
         }
 
