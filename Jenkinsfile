@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // Ruta correcta a jmeter.bat
         JMETER_PATH = "C:\\Users\\Graciela\\Downloads\\Apache jmeter\\apache-jmeter-5.6.3\\bin\\jmeter.bat"
     }
 
@@ -15,8 +14,7 @@ pipeline {
 
         stage('Ejecutar Prueba JMeter') {
             steps {
-                // Ejecutar JMeter con archivo .jmx
-                bat "\"${env.JMETER_PATH}\" -n -t JMeter-Test.jmx -l resultados.jtl -e -o reportes"
+                bat "\"${env.JMETER_PATH}\" -n -t testplan.jmx -l resultados.jtl -e -o reportes"
             }
         }
 
